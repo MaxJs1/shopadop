@@ -1,0 +1,18 @@
+{
+  "name": "shopadop",
+  "version": "0.0.1",
+  "description": "CLI tool to open specific pages in the Shopify Admin.",
+  "repository": "https://github.com/mitchuman/shopadop.git",
+  "author": "mitchuman",
+  "license": "MIT",
+  "type": "module",
+  "main": "index.js",
+  "bin": "index.js",
+  "scripts": {
+    "dev": "esbuild src/index.ts --bundle --platform=node --loader:.ts=ts --outfile=index.js --watch",
+    "build": "esbuild src/index.ts --bundle --platform=node --loader:.ts=ts --outfile=index.js --minify"
+  },
+  "devDependencies": {
+    "esbuild": "^0.14.14"
+  }
+}
