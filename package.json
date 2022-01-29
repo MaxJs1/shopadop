@@ -8,11 +8,10 @@
   "type": "module",
   "main": "index.js",
   "bin": "index.js",
-  "scripts": {
-    "dev": "esbuild src/index.ts --bundle --platform=node --loader:.ts=ts --outfile=index.js --watch",
-    "build": "esbuild src/index.ts --bundle --platform=node --loader:.ts=ts --outfile=index.js --minify"
-  },
-  "devDependencies": {
-    "esbuild": "^0.14.14"
+  "dependencies": {
+    "fuzzy": "^0.1.3",
+    "inquirer": "^8.2.0",
+    "inquirer-autocomplete-prompt": "^1.4.0",
+    "open": "^8.4.0"
   }
 }
