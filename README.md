@@ -16,7 +16,7 @@ npx shopadop
 
 Configure store(s) either in a `.shopifystores` file or in `package.json`. Otherwise, `shopadop` will ask for a store name each time.
 
-Store name can be the `___.myshopify.com` domain name or the direct domain name.
+Store name can be the `*.myshopify.com` domain name or the direct domain name.
 
 ```yaml
 # .shopifystores
