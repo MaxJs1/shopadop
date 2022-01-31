@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import yargs from 'yargs'
 import fs from 'fs'
 import chalk from 'chalk'
 import inquirer from 'inquirer'
@@ -7,26 +8,39 @@ import autocomplete from 'inquirer-autocomplete-prompt'
 import fuzzy from 'fuzzy'
 import { exec } from 'child_process'
 
+let { argv } = yargs(process.argv)
+
+const processStoreName = store => !store?.includes('.') ? `${store}.myshopify.com` : store
+
+function processArgs() {
+  let store_arg = argv.s || argv.store
+  let store =
+    typeof store_arg === 'object' ? store_arg.map(processStoreName) :
+    typeof store_arg === 'string' ? processStoreName(store_arg) :
+    null
+
+  return ({ store })
+}
+
+let config_filename = '.shopifystores'
+
 inquirer.registerPrompt('autocomplete', autocomplete)
 
 async function getConfig() {
-  const config = fs.existsSync('.shopifystores') && fs.readFileSync('.shopifystores', 'utf8').split(/\n/).filter(Boolean)
+  const config = fs.existsSync(config_filename) && fs.readFileSync(config_filename, 'utf8').split(/\n/).filter(Boolean)
   const pkg = JSON.parse(fs.readFileSync('./package.json'))
 
   let stores = config || pkg.shopify?.store
 
   if (!!stores?.length) {
-    return stores.map(s => s.includes('.')
-      ? s
-      : s += '.myshopify.com'
-    )
+    return stores.map(processStoreName)
   }
 
   return stores
 }
 
 async function getStore() {
-  let store = await getConfig()
+  let store = processArgs().store || await getConfig()
 
   if (typeof store === 'object' && !!store.length && store.every(s => s !== '')) {
     return await inquirer.prompt({
@@ -38,7 +52,7 @@ async function getStore() {
         .map(el => el.original),
     })
   } else if (typeof store === 'string' && store !== '') {
-    return store.replace('.myshopify.com', '')
+    return { store }
   } else {
     return await inquirer.prompt({
       name: 'store',
@@ -89,7 +103,8 @@ async function getAdminPage() {
 
 let { store } = await getStore()
 let { page } = await getAdminPage()
+let url = `https://${ processStoreName(store) }/admin/${ page }`
 
-let domain = store.includes('.') ? store : `${ store }.myshopify.com`
+console.log(`Opening ${ chalk.green(url) }`)
 
-exec(`open https://${ domain }/admin/${ page }`)
+exec(`open ${ url }`)

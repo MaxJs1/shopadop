@@ -35,11 +35,8 @@ my-store.com
 	...
 	"shopify": {
 		"store": "my-storename",
-		// or
-		"store": "my-storename.myshopify.com",
-		// or
-		"store": "my-store.com",
-		// or
+		// or "my-storename-2.myshopify.com"
+		// or "my-store.com"
 		"store": [
 			"my-storename"	// my-storename.myshopify.com
 			"my-storename-2.myshopify.com",
