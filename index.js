@@ -5,7 +5,7 @@ import chalk from 'chalk'
 import inquirer from 'inquirer'
 import autocomplete from 'inquirer-autocomplete-prompt'
 import fuzzy from 'fuzzy'
-import open from 'open'
+import { exec } from 'child_process'
 
 inquirer.registerPrompt('autocomplete', autocomplete)
 
@@ -92,4 +92,4 @@ let { page } = await getAdminPage()
 
 let domain = store.includes('.') ? store : `${ store }.myshopify.com`
 
-open(`https://${ domain }/admin/${ page }`)
+exec(`open https://${ domain }/admin/${ page }`)
