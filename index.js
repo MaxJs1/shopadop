@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import { readFile } from 'fs/promises'
+import fs from 'fs'
+import chalk from 'chalk'
 import inquirer from 'inquirer'
 import autocomplete from 'inquirer-autocomplete-prompt'
 import fuzzy from 'fuzzy'
@@ -8,13 +9,13 @@ import open from 'open'
 
 inquirer.registerPrompt('autocomplete', autocomplete)
 
-async function getStoreData() {
-  const config = (await readFile('.shopifystores', 'utf8')).split(/\n/).filter(Boolean)
-  const pkg = JSON.parse(await readFile('./package.json'))
+async function getConfig() {
+  const config = fs.existsSync('.shopifystores') && fs.readFileSync('.shopifystores', 'utf8').split(/\n/).filter(Boolean)
+  const pkg = JSON.parse(fs.readFileSync('./package.json'))
 
   let stores = config || pkg.shopify?.store
 
-  if (!!stores.length) {
+  if (!!stores?.length) {
     return stores.map(s => s.includes('.')
       ? s
       : s += '.myshopify.com'
@@ -25,7 +26,7 @@ async function getStoreData() {
 }
 
 async function getStore() {
-  let store = await getStoreData()
+  let store = await getConfig()
 
   if (typeof store === 'object' && !!store.length && store.every(s => s !== '')) {
     return await inquirer.prompt({
@@ -36,15 +37,21 @@ async function getStore() {
         .filter(input, store)
         .map(el => el.original),
     })
-  } else if (typeof store === 'string') {
+  } else if (typeof store === 'string' && store !== '') {
     return store.replace('.myshopify.com', '')
   } else {
     return await inquirer.prompt({
       name: 'store',
       type: 'input',
       message: 'Enter your store name',
+      validate: input => !!input || 'Please enter a store name',
       transformer: input => {
-        return `${ input }${ input.length < 3 ? '_'.repeat(3 - input.length) : '' }.myshopify.com`
+        if (input.includes('.')) {
+          return input
+        } else {
+          let placeholder = input.length < 3 ? '_'.repeat(3 - input.length) : ''
+          return `${ input }${ placeholder }${ chalk.gray`.myshopify.com` }`
+        }
       },
     })
   }
@@ -72,7 +79,7 @@ async function getAdminPage() {
     name: 'page',
     type: 'autocomplete',
     message: 'Select the Admin page',
-    source: async (answers, input = '') => await fuzzy
+    source: async (answers, input = '') => fuzzy
       .filter(input, ADMIN_PAGES, {
         extract: el => el.name,
       })
@@ -83,4 +90,6 @@ async function getAdminPage() {
 let { store } = await getStore()
 let { page } = await getAdminPage()
 
-open(`https://${ store }/admin/${ page }`)
+let domain = store.includes('.') ? store : `${ store }.myshopify.com`
+
+open(`https://${ domain }/admin/${ page }`)
