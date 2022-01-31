@@ -26,7 +26,7 @@ my-storename-2.myshopify.com
 my-store.com
 ```
 
-```json
+```js
 // package.json
 
 {
