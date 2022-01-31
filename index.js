@@ -10,7 +10,9 @@ import { exec } from 'child_process'
 
 let { argv } = yargs(process.argv)
 
-const processStoreName = store => !store?.includes('.') ? `${store}.myshopify.com` : store
+const processStoreName = store => !store?.includes('.')
+  ? `${store}.myshopify.com`
+  : store
 
 function processArgs() {
   let store_arg = argv.s || argv.store

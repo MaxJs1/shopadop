@@ -46,6 +46,12 @@ my-store.com
 }
 ```
 
+## Options
+
+| Option | Description | Example |
+| --- | --- | --- |
+| `--store`<br>`-s` | Store name | `-store=my-storename`<br>`-s=my-storename-2.myshopify.com -s=my-store.com` |
+
 ## Admin pages
 
 - Dashboard (Admin Homepage)
