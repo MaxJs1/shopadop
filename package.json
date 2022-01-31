@@ -1,6 +1,6 @@
 {
   "name": "shopadop",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Quickly open a specific Shopify admin page.",
   "repository": "https://github.com/nuotsu/shopadop.git",
   "author": "nuotsu",
