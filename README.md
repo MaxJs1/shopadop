@@ -1,47 +1,51 @@
 # `shopadop` — Shopify Admin Opener
 
+Quickly open a specific Shopify admin page.
+
 ## Installation
 
-`npm install -g shopadop`
+```sh
+npm install --global shopadop
+```
 
-`npx shopadop`
+```sh
+npx shopadop
+```
 
 ## Configuration
 
-Seup config file either in `.shopifystores` or `package.json`. Otherwise, `shopadop` will ask for a store name each time.
+Configure store(s) either in a `.shopifystores` file or in `package.json`. Otherwise, `shopadop` will ask for a store name each time.
+
+Store name can be the `___.myshopify.com` domain name or the direct domain name.
 
 ```yaml
 # .shopifystores
 
-mystorename.myshopify.com
-mystorename2  # mystorename2.myshopify.com
+my-storename	# my-storename.myshopify.com
+my-storename-2.myshopify.com
+my-store.com
 ```
 
 ```json
 // package.json
 
 {
-  ...
-  "shopify": {
-    "store": "mystorename.myshopify.com",
-    // or
-    "store": "mystorename",
-    // or
-    "store": [
-      "mystorename.myshopify.com",
-      "mystorename2"  // mystorename2.myshopify.com
-    ]
-  }
+	...
+	"shopify": {
+		"store": "my-storename",
+		// or
+		"store": "my-storename.myshopify.com",
+		// or
+		"store": "my-store.com",
+		// or
+		"store": [
+			"my-storename"	// my-storename.myshopify.com
+			"my-storename-2.myshopify.com",
+			"my-store.com"
+		]
+	}
 }
 ```
-
-```ts
-interface ShopifyPkgConfig {
-  store?: string | string[]
-}
-```
-
-\* `'.myshopify.com'` is optional.
 
 ## Admin pages
 
