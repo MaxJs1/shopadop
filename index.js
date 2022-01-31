@@ -11,33 +11,37 @@ inquirer.registerPrompt('autocomplete', autocomplete)
 async function getStoreData() {
   const pkg = JSON.parse(await readFile('./package.json'))
 
-  let store = pkg.shopify?.store
-
-  if (!store) {
-    console.error('"shopify.store" is not defined in package.json')
-    return
-  }
-
-  return store
+  return pkg.shopify?.store
 }
 
 async function getStore() {
   let store = await getStoreData()
 
-  if (typeof store === 'object') {
+  if (typeof store === 'object' && !!store.length && store.every(s => s !== '')) {
     return await inquirer.prompt({
       name: 'store',
       type: 'autocomplete',
       message: 'Select a store',
-      source: async (answers, input = '') => await fuzzy.filter(input, store).map(el => el.original),
+      source: async (answers, input = '') => fuzzy
+        .filter(input, store.map(s => s.replace('.myshopify.com', '')))
+        .map(el => el.original),
     })
+  } else if (typeof store === 'string') {
+    return store.replace('.myshopify.com', '')
   } else {
-    return store
+    return await inquirer.prompt({
+      name: 'store',
+      type: 'input',
+      message: 'Enter your store name',
+      transformer: input => {
+        return `${ input }${ input.length < 3 ? '_'.repeat(3 - input.length) : '' }.myshopify.com`
+      },
+    })
   }
 }
 
 const ADMIN_PAGES = [
-  { name: 'Dashboard', value: '' },
+  { name: 'Dashboard (Admin Homepage)', value: '' },
   { name: 'Products', value: 'products' },
   { name: 'Collections', value: 'collections' },
   { name: 'Apps', value: 'apps' },
@@ -69,4 +73,4 @@ async function getAdminPage() {
 let { store } = await getStore()
 let { page } = await getAdminPage()
 
-open(`https://${ store }/admin/${ page }`)
+open(`https://${ store }.myshopify.com/admin/${ page }`)

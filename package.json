@@ -13,5 +13,7 @@
     "inquirer": "^8.2.0",
     "inquirer-autocomplete-prompt": "^1.4.0",
     "open": "^8.4.0"
+  },
+  "shopify": {
   }
 }
