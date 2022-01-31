@@ -9,9 +9,19 @@ import open from 'open'
 inquirer.registerPrompt('autocomplete', autocomplete)
 
 async function getStoreData() {
+  const config = (await readFile('.shopifystores', 'utf8')).split(/\n/).filter(Boolean)
   const pkg = JSON.parse(await readFile('./package.json'))
 
-  return pkg.shopify?.store
+  let stores = config || pkg.shopify?.store
+
+  if (!!stores.length) {
+    return stores.map(s => s.includes('.')
+      ? s
+      : s += '.myshopify.com'
+    )
+  }
+
+  return stores
 }
 
 async function getStore() {
@@ -23,7 +33,7 @@ async function getStore() {
       type: 'autocomplete',
       message: 'Select a store',
       source: async (answers, input = '') => fuzzy
-        .filter(input, store.map(s => s.replace('.myshopify.com', '')))
+        .filter(input, store)
         .map(el => el.original),
     })
   } else if (typeof store === 'string') {
@@ -73,4 +83,4 @@ async function getAdminPage() {
 let { store } = await getStore()
 let { page } = await getAdminPage()
 
-open(`https://${ store }.myshopify.com/admin/${ page }`)
+open(`https://${ store }/admin/${ page }`)
