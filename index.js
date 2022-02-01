@@ -24,13 +24,11 @@ function processArgs() {
   return ({ store })
 }
 
-let config_filename = '.shopifystores'
-
 inquirer.registerPrompt('autocomplete', autocomplete)
 
 async function getConfig() {
-  const config = fs.existsSync(config_filename) && fs.readFileSync(config_filename, 'utf8').split(/\n/).filter(Boolean)
-  const pkg = JSON.parse(fs.readFileSync('./package.json'))
+  const config = fs.existsSync('.shopifystores') && fs.readFileSync('.shopifystores', 'utf8').split(/\n/).filter(Boolean)
+  const pkg = fs.existsSync('package.json') && JSON.parse(fs.readFileSync('package.json'))
 
   let stores = config || pkg.shopify?.store
 
