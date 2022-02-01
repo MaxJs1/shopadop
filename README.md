@@ -18,8 +18,6 @@ Configure store(s) either in a `.shopifystores` file or in `package.json`. Other
 
 Store name can be the `*.myshopify.com` domain name or the direct domain name.
 
-Recommended: add configuration where your global `package.json` is located for better global usage.
-
 ```yaml
 # .shopifystores
 
