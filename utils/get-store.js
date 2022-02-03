@@ -2,6 +2,7 @@ import processArgs from './process-args.js'
 import getConfig from './get-config.js'
 import inquirer from 'inquirer'
 import fuzzy from 'fuzzy'
+import chalk from 'chalk'
 
 export default async function() {
   let store = processArgs().store || getConfig()
