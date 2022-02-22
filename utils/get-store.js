@@ -1,11 +1,24 @@
-import processArgs from './process-args.js'
+import yargs from 'yargs'
+import processStoreName from './process-store-name.js'
 import getConfig from './get-config.js'
 import inquirer from 'inquirer'
 import fuzzy from 'fuzzy'
 import chalk from 'chalk'
 
+let { argv } = yargs(process.argv)
+
+function getStoreArg() {
+  let store_arg = argv['s'] || argv['store']
+
+  return (
+    typeof store_arg === 'object' ? store_arg.map(processStoreName) :
+    typeof store_arg === 'string' ? processStoreName(store_arg) :
+    null
+  )
+}
+
 export default async function() {
-  let store = processArgs().store || getConfig()
+  let store = getStoreArg() || getConfig()
 
   if (typeof store === 'object' && !!store.length && store.every(s => s !== '')) {
     return await inquirer.prompt({

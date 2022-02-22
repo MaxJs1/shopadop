@@ -1,6 +1,6 @@
 import fs from 'fs'
 import processStoreName from './process-store-name.js'
-import chalk from 'chalk'
+import log from './log.js'
 
 export default function() {
   const config = fs.existsSync('.shopifystores') &&
@@ -13,13 +13,18 @@ export default function() {
 
   let stores = config || pkg.shopify?.store
 
-  if (!!stores) {
-    if (typeof stores === 'string') {
-      console.log(`${ chalk.green`❯` } ${ chalk.bold`Using store` } ${ chalk.cyan(processStoreName(stores)) }`)
-      return stores
+  if (typeof stores === 'object') {
+    if (stores.length === 1) {
+      log.selected('Store', processStoreName(stores))
+      return stores[0]
     } else {
       return stores.map(processStoreName)
     }
+  }
+
+  else if (typeof stores === 'string') {
+    log.selected('Store', processStoreName(stores))
+    return stores
   }
 
   return stores

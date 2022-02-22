@@ -60,9 +60,9 @@ my-store.com
 | `-C`<br>`--collections` | Skip Admin page selection | |
 | `-A`<br>`--apps` | Skip Admin page selection | |
 | `-T`<br>`--themes` | Skip Admin page selection | |
-| `-WP`<br>`--pages` | Skip Admin page selection | |
+| `-G`<br>`--pages` | Skip Admin page selection | |
 | `-B`<br>`--blogs` | Skip Admin page selection | |
-| `-BA`<br>`--articles` | Skip Admin page selection | |
+| `-Z`<br>`--articles` | Skip Admin page selection | |
 | `-N`<br>`--navigation`<br>`--menus` | Skip Admin page selection | |
 | `-R`<br>`--redirects` | Skip Admin page selection | |
 | `-F`<br>`--files` | Skip Admin page selection | |

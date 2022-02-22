@@ -6,6 +6,8 @@ import processStoreName from './utils/process-store-name.js'
 import chalk from 'chalk'
 import { exec } from 'child_process'
 
+let dev = process.env.NODE_ENV === 'development'
+
 let { store } = await getStore()
 let { page } = await getAdminPage()
 
@@ -13,4 +15,4 @@ let url = `https://${ processStoreName(store) }/admin/${ page }`
 
 console.log(`\nOpening ${ chalk.green(url) }`)
 
-exec(`open ${ url }`)
+!dev && exec(`open ${ url }`)

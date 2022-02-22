@@ -8,6 +8,9 @@
   "type": "module",
   "main": "index.js",
   "bin": "./index.js",
+  "scripts": {
+    "dev": "NODE_ENV=development node ."
+  },
   "dependencies": {
     "chalk": "^4.1.2",
     "fuzzy": "^0.1.3",

@@ -1,11 +1,12 @@
-import processArgs from './process-args.js'
+import yargs from 'yargs'
 import inquirer from 'inquirer'
 import autocomplete from 'inquirer-autocomplete-prompt'
 import fuzzy from 'fuzzy'
+import log from './log.js'
 
 inquirer.registerPrompt('autocomplete', autocomplete)
 
-export const ADMIN_PAGES = [
+const ADMIN_PAGES = [
   {
     name: 'Home',
     value: '',
@@ -34,7 +35,7 @@ export const ADMIN_PAGES = [
   {
     name: 'Pages',
     value: 'pages',
-    flags: ['WP', 'pages'],
+    flags: ['G', 'pages'],
   },
   {
     name: 'Blogs',
@@ -44,7 +45,7 @@ export const ADMIN_PAGES = [
   {
     name: 'Articles',
     value: 'articles',
-    flags: ['BA', 'articles'],
+    flags: ['Z', 'articles'],
   },
   {
     name: 'Navigation',
@@ -78,10 +79,18 @@ export const ADMIN_PAGES = [
   },
 ]
 
+function getAdminPgArg() {
+  let { argv } = yargs(process.argv)
+
+  return ADMIN_PAGES.find(pg => pg.flags.some(flag => !!argv[flag]) || null)
+}
+
 export default async () => {
-  let { page } = processArgs()
+  let page = getAdminPgArg()
 
   if (!!page) {
+    log.selected('Admin', page.name)
+
     return {
       page: page.value
     }
