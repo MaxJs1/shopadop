@@ -54,11 +54,25 @@ my-store.com
 
 | Option | Description | Example |
 | --- | --- | --- |
-| `--store`<br>`-s` | Store name | `-store=my-storename`<br>`-s=my-storename-2.myshopify.com -s=my-store.com` |
+| `-s`<br>`--store` | Store name | `-store=my-storename`<br>`-s=my-storename-2.myshopify.com -s=my-store.com` |
+| `-H`<br>`--home` | Skip Admin page selection | |
+| `-P`<br>`--products` | Skip Admin page selection | |
+| `-C`<br>`--collections` | Skip Admin page selection | |
+| `-A`<br>`--apps` | Skip Admin page selection | |
+| `-T`<br>`--themes` | Skip Admin page selection | |
+| `-WP`<br>`--pages` | Skip Admin page selection | |
+| `-B`<br>`--blogs` | Skip Admin page selection | |
+| `-BA`<br>`--articles` | Skip Admin page selection | |
+| `-N`<br>`--navigation`<br>`--menus` | Skip Admin page selection | |
+| `-R`<br>`--redirects` | Skip Admin page selection | |
+| `-F`<br>`--files` | Skip Admin page selection | |
+| `-M`<br>`--metafields` | Skip Admin page selection | |
+| `-O`<br>`--preferences` | Skip Admin page selection | |
+| `-S`<br>`--settings` | Skip Admin page selection | |
 
 ## Admin pages
 
-- Dashboard (Admin Homepage)
+- Home
 - Products
 - Collections
 - Apps
