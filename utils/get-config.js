@@ -13,15 +13,13 @@ export default function() {
 
   let stores = config || pkg.shopify?.store
 
-  if (!!stores?.length) {
-    if (stores.length == 1) {
-      let [store] = stores
-      console.log(`${ chalk.green`❯` } ${ chalk.bold`Using store` } ${ chalk.cyan(processStoreName(store)) }`)
-      return store
+  if (!!stores) {
+    if (typeof stores === 'string') {
+      console.log(`${ chalk.green`❯` } ${ chalk.bold`Using store` } ${ chalk.cyan(processStoreName(stores)) }`)
+      return stores
     } else {
       return stores.map(processStoreName)
     }
-
   }
 
   return stores
